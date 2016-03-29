@@ -1,0 +1,32 @@
+extends ../layouts/default
+
+block content
+	.container: .row: .col-sm-10.col-sm-offset-1.col-md-8.col-md-offset-2
+		article
+			p: a(href='/blog') &larr; 
+			if !data.post
+				h2 Invalid Post.
+			else
+				header
+					h1= data.post.title
+					p Posted 
+						if data.post.publishedDate
+							| on #{data.post._.publishedDate.format('MMMM Do, YYYY')} 
+						if data.post.categories && data.post.categories.length
+							| in 
+							each cat, cat_i in data.post.categories
+								a(href='/blog/' + cat.key)= cat.name
+								if cat_i < data.post.categories.length - 1
+									| , 
+								else
+									|  
+						if data.post.author
+							| by #{data.post.author.name.first}
+				.post
+					!= data.post.content.full
+			p: a(href='/blog') &larr; 
+			h1 SCRIPT ONE
+			#app
+			script(src='/js/application.js')
+			h1 SCRIPT TWO
+			script(src='/js/tut-comments.js')
